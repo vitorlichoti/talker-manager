@@ -9,8 +9,13 @@ const getAllTalkers = async () => {
   return talkers;
 };
 
-// const getTalkerById = () => {};
+const getTalkerById = async (id) => {
+  const response = await readFile(talkerPath, 'utf-8');
+  const talkers = JSON.parse(response);
+  return talkers.find((e) => e.id === Number(id));
+};
 
 module.exports = {
   getAllTalkers,
+  getTalkerById,
 };
