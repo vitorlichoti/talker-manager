@@ -5,7 +5,9 @@ const {
   getTalkerById,
   addTalker,
   editTalker,
+  removeTalker,
 } = require('./utils/handleTalkers');
+
 const {
   validateLogin,
   headerValidation,
@@ -32,6 +34,13 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+});
+
+app.get('/talker/search', headerValidation, async (req, res) => {
+  const { q } = req.query;
+
+  const talkers = await getAllTalkers();
+  return res.json(talkers.filter((e) => e.name.includes(q)));
 });
 
 app.get('/talker', async (_req, res) => {
@@ -87,3 +96,10 @@ app.put(
     return res.status(200).json(talkerUpdated);
   },
   );
+
+app.delete('/talker/:id', headerValidation, async (req, res) => {
+  const { id } = req.params;
+  await removeTalker(Number(id));
+
+  return res.status(204).json();
+});

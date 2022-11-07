@@ -45,9 +45,19 @@ const editTalker = async (id, updates) => {
   return updatedTalker;
 };
 
+const removeTalker = async (id) => {
+  const talkers = await getAllTalkers();
+
+  const listWithoutTalkerId = talkers.filter((e) => e.id !== id);
+  const updatedData = JSON.stringify(listWithoutTalkerId);
+
+  await writeFile(talkerPath, updatedData);
+};
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
   addTalker,
   editTalker,
+  removeTalker,
 };
