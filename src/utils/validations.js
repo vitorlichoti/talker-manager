@@ -91,7 +91,7 @@ const watchedFormatValidation = (req, res, next) => {
 const rateValidation = (req, res, next) => {
   const { talk: { rate } } = req.body;
 
-  if (!rate) {
+  if (rate === undefined) {
     return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   }
   if (!Number.isInteger(rate) || rate > 5 || rate < 1) {

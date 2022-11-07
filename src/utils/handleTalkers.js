@@ -29,8 +29,25 @@ const addTalker = async (talker) => {
   };
 };
 
+const editTalker = async (id, updates) => {
+  const oldTalkers = await getAllTalkers();
+  const updatedTalker = { id, ...updates };
+  const talkerListUpdate = oldTalkers.reduce((talkersList, currentTalker) => {
+    if (currentTalker.id === updatedTalker.id) {
+      return [...talkersList, updatedTalker];
+    }
+    return [...talkersList, currentTalker];
+  }, []);
+
+  const updatedData = JSON.stringify(talkerListUpdate);
+
+  await writeFile(talkerPath, updatedData);
+  return updatedTalker;
+};
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
   addTalker,
+  editTalker,
 };

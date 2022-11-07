@@ -4,6 +4,7 @@ const {
   getAllTalkers,
   getTalkerById,
   addTalker,
+  editTalker,
 } = require('./utils/handleTalkers');
 const {
   validateLogin,
@@ -68,5 +69,21 @@ app.post(
     const talker = req.body;
     const postTalker = await addTalker(talker);
     return res.status(201).json(postTalker);
+  },
+  );
+
+app.put(
+  '/talker/:id',
+  headerValidation,
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  watchedFormatValidation,
+  rateValidation,
+  async (req, res) => {
+    const { id } = req.params;
+    const talkerUpdates = req.body;
+    const talkerUpdated = await editTalker(Number(id), talkerUpdates);
+    return res.status(200).json(talkerUpdated);
   },
   );
